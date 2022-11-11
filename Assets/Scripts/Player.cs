@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Move Info")]
     [SerializeField] private float _speed = 5f;
+    private Vector3 offset = new Vector3(0, 0.75f, 0);
+
+    [Header("Laser Info")]
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private float _fireRate = 0.5f;
+    private float _canFire = -1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +22,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        {
+            _canFire = Time.time + _fireRate;
+            FireLaser();
+        }
     }
 
     void Movement()
@@ -39,5 +51,11 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(_rightBound, transform.position.y, 0);
         }
         
+    }
+
+    void FireLaser()
+    {
+        
+        Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
     }
 }

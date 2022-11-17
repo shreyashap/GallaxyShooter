@@ -19,6 +19,11 @@ public class Laser : MonoBehaviour
         float _range = 8.0f;
         if(transform.position.y > _range)
         {
+            if (transform.parent != null)
+            {
+                Destroy(transform.parent.gameObject);
+            }
+
             Destroy(this.gameObject);
         }
     }

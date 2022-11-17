@@ -10,7 +10,10 @@ public class Player : MonoBehaviour
 
     [Header("Laser Info")]
     [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private float _fireRate = 0.5f;
+    [SerializeField]
+    private bool isTripleShotActive = false;
     private float _canFire = -1f;
     private SpawnManager sManager;
 
@@ -62,7 +65,15 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
         
-        Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+
+        if (isTripleShotActive)
+        {
+            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+        }
     }
 
     public void Damage()
@@ -75,5 +86,18 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
             sManager.CanSpawn();
         }
+    }
+
+    public void TripleShotActive()
+    {
+        isTripleShotActive = true;
+        StartCoroutine(TripleShotDown());
+    }
+
+    IEnumerator TripleShotDown()
+    {
+        yield return new WaitForSeconds(5f);
+
+        isTripleShotActive = false;
     }
 }

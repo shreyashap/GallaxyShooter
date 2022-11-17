@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private float _fireRate = 0.5f;
+    
     [SerializeField]
     private bool isTripleShotActive = false;
     private float _canFire = -1f;
@@ -70,7 +71,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
-        else
+        else if(!isTripleShotActive)
         {
             Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
         }
@@ -92,6 +93,16 @@ public class Player : MonoBehaviour
     {
         isTripleShotActive = true;
         StartCoroutine(TripleShotDown());
+    }
+    public void SpeedPowerup()
+    {
+        _speed = 8.5f;
+        StartCoroutine(SpeedDown());
+    }
+    IEnumerator SpeedDown()
+    {
+        yield return new WaitForSeconds(5f);
+        _speed = 5f;
     }
 
     IEnumerator TripleShotDown()

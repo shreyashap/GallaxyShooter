@@ -7,6 +7,7 @@ public class Powerup : MonoBehaviour
     private const float _powerupSpeed = 3f;
 
     private Player player;
+    [SerializeField] private int powerupId;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +27,28 @@ public class Powerup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             Destroy(this.gameObject);
-            player.TripleShotActive();
+
+            switch (powerupId)
+            {
+                case 0:
+                player.TripleShotActive();
+                break;
+
+                case 1:
+                    player.SpeedPowerup();
+                break;
+
+                case 2:
+                    Debug.Log("Shield powerup activated");
+                break;
+                
+                default:
+                Debug.Log("Invalid");
+                break;
+            }
         }
     }
 }

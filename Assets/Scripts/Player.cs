@@ -13,12 +13,18 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private float _fireRate = 0.5f;
     
-    [SerializeField]
-    private bool isTripleShotActive = false;
+    
+   
     private float _canFire = -1f;
     private SpawnManager sManager;
 
     public int _lives = 3;
+    
+    private bool isTripleShotActive = false;
+    private bool isSheildActive = false;
+    private bool isSpeedPowerup = false;
+
+    [SerializeField] private GameObject _sheildVisualiser;
     // Start is called before the first frame update
     void Start()
     {
@@ -79,8 +85,15 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-       
+       if(isSheildActive)
+        {
+            isSheildActive = false;
+            _sheildVisualiser.SetActive(false);
+            return;
+        }
+        
         _lives--;
+      
 
         if(_lives < 1)
         {
@@ -92,12 +105,20 @@ public class Player : MonoBehaviour
     public void TripleShotActive()
     {
         isTripleShotActive = true;
+       
         StartCoroutine(TripleShotDown());
     }
     public void SpeedPowerup()
     {
+
         _speed = 8.5f;
         StartCoroutine(SpeedDown());
+    }
+
+    public void ShieldPowerup()
+    {
+        isSheildActive = true;
+        _sheildVisualiser.SetActive(true);
     }
     IEnumerator SpeedDown()
     {
@@ -110,5 +131,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         isTripleShotActive = false;
+        
     }
 }

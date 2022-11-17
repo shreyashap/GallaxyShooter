@@ -42,7 +42,7 @@ public class Powerup : MonoBehaviour
                 break;
 
                 case 2:
-                    Debug.Log("Shield powerup activated");
+                    player.ShieldPowerup();
                 break;
                 
                 default:

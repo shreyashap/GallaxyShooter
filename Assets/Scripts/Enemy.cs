@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Player>();
+        player = GameObject.Find("Player").GetComponent<Player>();
 
 
     }
@@ -32,9 +32,7 @@ public class Enemy : MonoBehaviour
     {
 
         if(other.gameObject.tag == "Player")
-        {
-           Player player =  other.transform.GetComponent<Player>();
-            
+        {   
             player.Damage();
             
             Destroy(this.gameObject);
@@ -43,6 +41,7 @@ public class Enemy : MonoBehaviour
         if(other.gameObject.tag == "Laser")
         {
             Destroy(other.gameObject);
+            player.ScoreToAdd(10);
             Destroy(this.gameObject);
         }
     }

@@ -22,7 +22,11 @@ public class Player : MonoBehaviour
     
     private bool isTripleShotActive = false;
     private bool isSheildActive = false;
-    private bool isSpeedPowerup = false;
+
+
+    [SerializeField] private int _score;
+    private UIManager uiManager;
+    private GameManager gManager;
 
     [SerializeField] private GameObject _sheildVisualiser;
     // Start is called before the first frame update
@@ -30,6 +34,8 @@ public class Player : MonoBehaviour
     {
         transform.position = new Vector3(0, 0, 0);
         sManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        gManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
        
     }
@@ -93,12 +99,15 @@ public class Player : MonoBehaviour
         }
         
         _lives--;
+        uiManager.LivesImage(_lives);
       
 
         if(_lives < 1)
         {
             Destroy(this.gameObject);
             sManager.CanSpawn();
+            uiManager.GameOver();
+            gManager.GameRestart();
         }
     }
 
@@ -119,6 +128,14 @@ public class Player : MonoBehaviour
     {
         isSheildActive = true;
         _sheildVisualiser.SetActive(true);
+        
+    }
+
+    public void ScoreToAdd(int addScore)
+    {
+        _score = _score + addScore;
+
+        uiManager.UpdateScore(_score);
     }
     IEnumerator SpeedDown()
     {

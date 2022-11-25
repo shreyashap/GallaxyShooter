@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _speed = 5f;
+    [SerializeField] private float _speed = 4f;
+ 
     private Player player;
+    private Animator anim;
+  
+    
+    
+
+    
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-
-
+        anim = GetComponent<Animator>();     
     }
 
     // Update is called once per frame
@@ -21,11 +27,11 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
         
         
-        if(transform.position.y < -5.5f && player._lives > 1)
+        /*if(transform.position.y < -5.5f && player._lives > 1)
         {
             transform.position = new Vector3(0, 6f, 0);
 
-        }
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -34,15 +40,25 @@ public class Enemy : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {   
             player.Damage();
+
+
+            anim.SetTrigger("OnDeath");
+            _speed = 0;
+            Destroy(this.gameObject, 2.4f);
+          
             
-            Destroy(this.gameObject);
         }
         
         if(other.gameObject.tag == "Laser")
         {
             Destroy(other.gameObject);
             player.ScoreToAdd(10);
-            Destroy(this.gameObject);
+
+            anim.SetTrigger("OnDeath");
+            _speed = 0;
+            Destroy(this.gameObject,2.4f);
+            
+            
         }
     }
 }

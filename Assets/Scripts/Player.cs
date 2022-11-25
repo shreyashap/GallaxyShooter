@@ -28,14 +28,22 @@ public class Player : MonoBehaviour
     private UIManager uiManager;
     private GameManager gManager;
 
+    [Header("Effects Info")]
     [SerializeField] private GameObject _sheildVisualiser;
+    [SerializeField] GameObject playerHurt1;
+    [SerializeField] GameObject playerHurt2;
+
+    private Animator playerAnim;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(0, 0, 0);
+       
         sManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         gManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerAnim = GameObject.Find("Player").GetComponent<Animator>();
 
        
     }
@@ -72,6 +80,16 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(_rightBound, transform.position.y, 0);
         }
+
+
+        if(horizontalInput > 0)
+        {
+            playerAnim.SetFloat("IsTurn",horizontalInput);
+        }
+        else if(horizontalInput < 0)
+        {
+            playerAnim.SetFloat("IsTurn", horizontalInput);
+        }
         
     }
 
@@ -99,11 +117,23 @@ public class Player : MonoBehaviour
         }
         
         _lives--;
+        
+        if(_lives == 2)
+        {
+            playerHurt1.SetActive(true);
+        }
+        else if(_lives == 1)
+        {
+            playerHurt2.SetActive(true);
+        }
+        
+
         uiManager.LivesImage(_lives);
       
 
         if(_lives < 1)
         {
+           
             Destroy(this.gameObject);
             sManager.CanSpawn();
             uiManager.GameOver();

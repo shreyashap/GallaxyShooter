@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyPrefab;
+    public GameObject _enemyPrefab;
     private bool _stopSpawning = false;
     [SerializeField] private GameObject _enemyContainer;
 
     [SerializeField] private GameObject[] _powerups;
     // Start is called before the first frame update
-    void Start()
+
+    public void Spawn()
     {
         StartCoroutine(SpawnEnemy());
         StartCoroutine(SpawnPowerup());
@@ -24,6 +25,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
+        yield return new WaitForSeconds(3.0f);
         while (_stopSpawning == false)
         {
             Vector3 randomPos = new Vector3(Random.Range(-6.5f, 6.5f), 6f, 0);
@@ -35,6 +37,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerup()
     {
+        yield return new WaitForSeconds(3.0f);
         while (_stopSpawning == false)
         {
             Vector3 spawnPos = new Vector3(Random.Range(-9f, 9f), 6f, 0);

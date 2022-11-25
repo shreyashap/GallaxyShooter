@@ -7,11 +7,14 @@ public class Powerup : MonoBehaviour
     private const float _powerupSpeed = 3f;
 
     private Player player;
+    private AudioManager sManager;
+
     [SerializeField] private int powerupId;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        sManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -43,6 +46,7 @@ public class Powerup : MonoBehaviour
 
                 case 2:
                     player.ShieldPowerup();
+                    sManager._shieldAudio.Play();
                 break;
                 
                 default:

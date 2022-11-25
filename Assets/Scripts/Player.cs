@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject playerHurt2;
 
     private Animator playerAnim;
+    private AudioManager audioManager;
 
 
     // Start is called before the first frame update
@@ -44,8 +45,9 @@ public class Player : MonoBehaviour
         uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         gManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerAnim = GameObject.Find("Player").GetComponent<Animator>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
-       
+
     }
 
     // Update is called once per frame
@@ -105,6 +107,8 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
         }
+
+        audioManager.FireLaser();
     }
 
     public void Damage()
@@ -113,6 +117,7 @@ public class Player : MonoBehaviour
         {
             isSheildActive = false;
             _sheildVisualiser.SetActive(false);
+            audioManager._shieldAudio.Stop();
             return;
         }
         

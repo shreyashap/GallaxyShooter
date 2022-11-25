@@ -19,9 +19,19 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+
+        if(Input.GetKey(KeyCode.Escape) && _isGameOver)
+        {
+            Application.Quit();
+            Debug.Log("Quit");
+        }
     }
 
     public void GameRestart()
+    {
+        _isGameOver = true;
+    }
+    public void Over()
     {
         _isGameOver = true;
     }

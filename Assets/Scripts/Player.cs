@@ -143,6 +143,7 @@ public class Player : MonoBehaviour
             sManager.CanSpawn();
             uiManager.GameOver();
             gManager.GameRestart();
+            gManager.Over();
         }
     }
 
